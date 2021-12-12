@@ -32,6 +32,8 @@ jobs:
     steps:
 ```
 
+![pipeline stages](./images/pipeline-stages.png)
+
 
 ## Terraform
 
@@ -84,9 +86,9 @@ A basic Terratest has been created that deploys the infrastructure and validates
 1. You'll need to install golang on the host operating system
 2. cd into the tests directory and run `go test -v -timeout 30m`
 
-## WIP
-* Terratests throwing false negative because of padding on output, when run during pipeline on Ubuntu agent
+## TODO
 * Implement private VPC with WAF as single entry point
 * Implement remote state
 * Add Cloudwatch config to monitor instances created and send alerts when an autoscale even occurs
 * Look into action composition to avoid code duplication and promote reusable patterns
+* Mechanism to artificially test scaling capability
