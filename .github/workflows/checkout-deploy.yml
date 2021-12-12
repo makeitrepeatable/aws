@@ -48,7 +48,7 @@ jobs:
         id: plan
         run: terraform plan
         working-directory: ./checkout
-      
-#      - name: Terraform Apply
-#        id: apply
-#        run: terraform apply --auto-approve
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply --auto-approve
+        working-directory: ./checkout
