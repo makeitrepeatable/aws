@@ -1,6 +1,6 @@
 resource "random_string" "random" {
-  length           = 5
-  special          = false
+  length      = 5
+  special     = false
   min_numeric = 2
 }
 resource "aws_security_group" "allow_http_ssh" {
