@@ -16,7 +16,7 @@ The configuration for the Actions pipeline lives in the root of this repo (`.git
 2. Log into github and upload `AWS_ACCESS_KEY` & `AWS_SECRET_KEY` as github secrets
 3. Run deploy-checkout-aws workflow
 
-The pipeline contains a deploy stage. This culd be enhanced by running the tests as part of the pipeline prior to the build stage, to be sure that the confoguration will be applied as expected. a PR pipeline could also be created to protect against breaking changes before the PR is merged.
+The pipeline contains stages for testing and deploying the code. A PR pipeline could also be created to protect against breaking changes before the PR is merged.
 
 The AWS secrets mentioned in step 2 above are passed as environment variables.
 
