@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "demo_bucket" {
-  bucket = concat(var.s3_bucket_name, random_string.random.result)
+  bucket = "${var.s3_bucket_name}-${random_string.random.result}"
   acl    = var.s3_acl
   tags   = var.tags
 }
