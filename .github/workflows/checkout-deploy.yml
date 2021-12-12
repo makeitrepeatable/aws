@@ -1,33 +1,57 @@
 name: deploy-checkout-aws
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
+      - f/*
   pull_request:
     branches: [ main ]
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_key }}
 jobs:
-  build:
-    name: build
+  test:
+    name: Run Terratests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-       
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
-      
+      - name: Run tests
+        run: go test -v -timeout 30m
+        working-directory: ./checkout/tests
+    continue-on-error: true
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
       - name: Terraform Init
         id: init
         run: terraform init
         working-directory: ./checkout
-      
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        working-directory: ./checkout
+      - name: Terraform validate
+        id: validate
+        run: terraform validate
+        working-directory: ./checkout
       - name: Terraform Plan
         id: plan
         run: terraform plan
         working-directory: ./checkout
-      
-#      - name: Terraform Apply
-#        id: apply
-#        run: terraform apply --auto-approve
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply --auto-approve
+        working-directory: ./checkout
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy --auto-approve
+        working-directory: ./checkout

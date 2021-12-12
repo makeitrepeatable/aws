@@ -2,10 +2,11 @@ package test
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestAwsAsg(t *testing.T) {
@@ -31,7 +32,7 @@ func TestAwsAsg(t *testing.T) {
 	// get the value of an output variable
 	instanceID := terraform.Output(t, terraformOptions, "elb_dns_name")
 
-	// use tf output to validate that resources were created siuccessfully
+	// use tf output to validate that resources were created successfully
 	assert.NotEmpty(t, instanceID)
 
 }

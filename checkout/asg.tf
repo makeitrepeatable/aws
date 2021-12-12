@@ -1,5 +1,12 @@
+resource "random_string" "random" {
+  length    = 5
+  special   = false
+  number    = false
+  min_lower = 5
+}
+
 resource "aws_security_group" "allow_http_ssh" {
-  name        = "allow_inbound"
+  name        = "allow_inbound-${random_string.random.result}"
   description = "Allow inbound traffic on 22 & 443"
   dynamic "ingress" {
     iterator = port
@@ -50,14 +57,14 @@ resource "aws_autoscaling_group" "example" {
   health_check_type    = var.asg_health_check_type
   tag {
     key                 = "Name"
-    value               = var.asg_name
+    value               = "${var.asg_name}-${random_string.random.result}"
     propagate_at_launch = true
   }
 }
 
 ## Security Group for ELB
 resource "aws_security_group" "elb_sg" {
-  name = "terraform-example-elb"
+  name = "${var.asg_name}-${random_string.random.result}"
   egress {
     from_port   = 0
     to_port     = 0
@@ -73,7 +80,7 @@ resource "aws_security_group" "elb_sg" {
 }
 
 resource "aws_elb" "elb_demo" {
-  name               = var.elb_name
+  name               = "${var.elb_name}-${random_string.random.result}"
   security_groups    = [aws_security_group.elb_sg.id]
   availability_zones = data.aws_availability_zones.az.names
   health_check {
