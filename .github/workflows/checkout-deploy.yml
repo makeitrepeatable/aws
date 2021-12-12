@@ -20,7 +20,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       - name: Setup Terratests
         run: go mod init checkout
-        working-directory: ./tests
+        working-directory: ./checkout/tests
 
   build:
     name: build
