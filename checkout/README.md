@@ -4,6 +4,7 @@
 This repo will deploy a scalable web application AWS
 
 
+
 ## Deployment
 
 Infrastructure is deployed to AWS using github actions.
@@ -88,3 +89,4 @@ A basic Terratest has been created that deploys the infrastructure and validates
 * Implement private VPC with WAF as single entry point
 * Implement remote state
 * Add Cloudwatch config to monitor instances created and send alerts when an autoscale even occurs
+* Look into action composition to avoid code duplication and promote reusable patterns
