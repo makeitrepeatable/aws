@@ -64,7 +64,7 @@ resource "aws_autoscaling_group" "example" {
 
 ## Security Group for ELB
 resource "aws_security_group" "elb_sg" {
-  name = var.asg_name
+  name = "${var.asg_name}-${random_string.random.result}"
   egress {
     from_port   = 0
     to_port     = 0
