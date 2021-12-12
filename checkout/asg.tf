@@ -1,9 +1,10 @@
 resource "random_string" "random" {
   length      = 5
   special     = false
-  min_numeric = 2
+  number = false
   min_lower   = 5
 }
+
 resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_inbound-${random_string.random.result}"
   description = "Allow inbound traffic on 22 & 443"
@@ -79,7 +80,7 @@ resource "aws_security_group" "elb_sg" {
 }
 
 resource "aws_elb" "elb_demo" {
-  name               = var.elb_name
+  name               = "${var.elb_name}-${random_string.random.result}"
   security_groups    = [aws_security_group.elb_sg.id]
   availability_zones = data.aws_availability_zones.az.names
   health_check {
