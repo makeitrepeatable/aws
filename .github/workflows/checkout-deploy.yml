@@ -12,7 +12,6 @@ env:
 jobs:
   test:
     name: Run tests
-    id: tests
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -27,7 +26,7 @@ jobs:
   build:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: tests
+    needs: Run tests
     steps:
       - name: Checkout
         uses: actions/checkout@v2
