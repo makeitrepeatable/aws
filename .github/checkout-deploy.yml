@@ -21,10 +21,12 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ./checkout
       
       - name: Terraform Plan
         id: plan
         run: terraform plan
+        working-directory: ./checkout
       
 #      - name: Terraform Apply
 #        id: apply
