@@ -1,3 +1,8 @@
+resource "random_string" "random" {
+  length           = 5
+  special          = false
+  min_numeric = 2
+}
 resource "aws_security_group" "allow_http_ssh" {
   name        = "allow_inbound"
   description = "Allow inbound traffic on 22 & 443"

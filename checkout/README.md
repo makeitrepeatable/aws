@@ -15,7 +15,7 @@ The configuration for the Actions pipeline lives in the root of this repo (`.git
 2. Log into github and upload `AWS_ACCESS_KEY` & `AWS_SECRET_KEY` as github secrets
 3. Run deploy-checkout-aws workflow
 
-The pipeline is comprised of a test stage and a deploy stage. The deploy stage can only run once the test stage has completed successfully. Tis culd be further enhanced by running the tests as part of a PR pipeline that has to pass before the PR can be merged.
+The pipeline contains a deploy stage. This culd be enhanced by running the tests as part of the pipeline prior to the build stage, to be sure that the confoguration will be applied as expected. a PR pipeline could also be created to protect against breaking changes before the PR is merged.
 
 The AWS secrets mentioned in step 2 above are passed as environment variables.
 
@@ -24,12 +24,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_key }}
 jobs:
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-  build:
+  deploy:
     name: Deploy
     runs-on: ubuntu-latest
     needs: test
@@ -78,10 +73,13 @@ The launch configuration defines how the new instances created within the ASG wi
 The ELB distributes the traffic across the nodes in the ASG. It currently listens on port 80, but improvements could be made to offload SSL and secure the traffic to the web application behind it, along with a custom DNS entry.
 
 ## Terratest
-A basic Terratest has been created that deploys the infrastructure and validates the hostname of the ELB. 
+A basic Terratest has been created that deploys the infrastructure and validates the hostname of the ELB. To use:
+1. You'll need to install golang on the host operating system
+2. cd into the tests directory and run `go test -v -timeout 30m`
 
 ## WIP
-* Terratests throwing false negative because output is padded
+* Terratests throwing false negative because of padding on output
 * Implement private VPC with WAF as single entry point
 * Implement remote state
 * Add Cloudwatch config to monitor instances created and send alerts when an autoscale even occurs
+* Generalise resource names so that they don't conflict with tests

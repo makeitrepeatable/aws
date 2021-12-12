@@ -10,23 +10,9 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_key }}
 jobs:
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2   
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-      - name: Run Terratests
-        run: go test -v
-        working-directory: ./checkout/tests
-
-  build:
+  deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v2
