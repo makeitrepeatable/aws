@@ -8,7 +8,7 @@ This repo will deploy a scalable web application AWS
 
 Infrastructure is deployed to AWS using github actions.
 
-###### Github Actions
+**Github Actions**
 
 The configuration for the Actions pipeline lives in the root of this repo (`.github/workflows/checkout-deploy.yml`). To use:
 1. Clone the repo
@@ -41,7 +41,7 @@ jobs:
 
 Terraform creates the following infrastructure in this repo
 
-###### Security groups
+**Security groups**
 Security groups define the ingress & egress for the web application:
 
 ```
@@ -55,16 +55,16 @@ Security groups define the ingress & egress for the web application:
 ```
 Terraform dynamic resources allow the user to simplify their code by iterating through the values passed in a variable with a complex data type. A `foreach` loop iterates through these values and uses an iterator to defined each configuration value.
 
-###### S3
+**S3**
 An S3 bucket stores the image displayed on the web page. Currently the bucket is public, but could easily be converted to a private bucket.
 
-###### Cloudfront
+**Cloudfront**
 Cloudfront is a CDN that sits in front of the S3 bucket and aims to reduce latency by caching images and serving them from closest endpoint to the request origin.
 
-###### EC2 Autoscale Group
+**EC2 Autoscale Group**
 The autoscale group will launch a number of EC2 instances that host the web application based on load. 
 
-###### EC2 Launch Configuration
+**EC2 Launch Configuration**
 The launch configuration defines how the new instances created within the ASG will be configured. In this use case, the launch configuration runs an inline bash script passed as `user_data` that removes the default apache index.html page and replaces it with a custom page with a header and an image.
 
 ```
@@ -74,7 +74,7 @@ The launch configuration defines how the new instances created within the ASG wi
                       EOF
 ```
 
-###### Elastic load balancer
+**Elastic load balancer**
 The ELB distributes the traffic across the nodes in the ASG. It currently listens on port 80, but improvements could be made to offload SSL and secure the traffic to the web application behind it, along with a custom DNS entry.
 
 ## Terratest
@@ -83,3 +83,5 @@ A basic Terratest has been created that deploys the infrastructure and validates
 ## WIP
 * Terratests throwing false negative because output is padded
 * Implement private VPC with WAF as single entry point
+* Implement remote state
+* Add Cloudwatch config to monitor instances created and send alerts when an autoscale even occurs
