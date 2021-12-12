@@ -1,7 +1,9 @@
 name: deploy-checkout-aws
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
+      - f/*
   pull_request:
     branches: [ main ]
 env:
