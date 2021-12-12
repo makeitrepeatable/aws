@@ -84,7 +84,7 @@ A basic Terratest has been created that deploys the infrastructure and validates
 2. cd into the tests directory and run `go test -v -timeout 30m`
 
 ## WIP
-* Terratests throwing false negative because of padding on output
+* Terratests throwing false negative because of padding on output, when run during pipeline on Ubuntu agent
 * Implement private VPC with WAF as single entry point
 * Implement remote state
 * Add Cloudwatch config to monitor instances created and send alerts when an autoscale even occurs
